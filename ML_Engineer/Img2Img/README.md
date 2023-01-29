@@ -1,34 +1,33 @@
+ ## Note:
+- I am leaving out code to plot loss curves on tensorboard, because this didn't seem necessary for this exercise.
+- While working on a notebook might not be suitable for big projects, I thought for this exercise, it gives a nice way to look through the training code in a concise manner.
+- I just used a small subset of flickr30K dataset to show how to learn the Sobel kernel. 
 
-## The Problem
+## How to run.
+The setup instructions are fairly straightforward. 
 
-We would like you to write an img2img algorithm that creates a neural network that can automatically derive a **Sobel Filter Kernel** based on a set of input and output images. The output images are simply the input images with a sobel filter applied.
+Create a conda environment `conda create -n poly` and activate `conda activate poly`.
 
-You should make the decision of what kind of network to use, how to structure the layers, etc. Most architectures will work as the network is likely to very quickly converge, but keep in mind what goal you are optimizing for.
+Install libraries through conda. Note my machine has a CUDA 11.3 installed. Change the installation instructions to match your CUDA toolkit/drivers.
+`conda install pytorch==1.12.1 torchvision==0.13.1 torchaudio==0.12.1 cudatoolkit=11.3 -c pytorch`
 
-**NOTE:** if your model architecture is very deep or you are borrowing an off-the-shelf model, you are likely not thinking about this problem in the right way. 
+Install a few other libraries `pip install datasets opencv-python jupyterlab`
 
-## Some questions
+Most importantly, add this environment into ipython kernels so that you can use it in Jupyter lab.
+```
+pip install ipykernel
+python -m ipykernel install --user --name=poly
+```
 
-1. What if the image is really large or not of a standard size?
-2. What should occur at the edges of the image?
-3. Are you using a fully convolutional architecture?
-4. Are there optimizations built into your framework of choice (e.g. Pytorch) that can make this fast?
-5. What if you wanted to optimize specifically for model size?
-6. How do you know when training is complete?
-7. What is the benefit of a deeper model in this case? When might there be a benefit for a deeper model (not with a sobel kernel but generally when thinking about image to image transformations)?
+To look at the code, simply run `jupyter lab`, and open `learn_kernel.ipynb` notebook with the `poly` ipython kernel.
 
-## What is a Sobel Filter?
-
-[Wikipedia](https://en.wikipedia.org/wiki/Sobel_operator) has everything you need to know to answer this question. 
-
-## What libraries should I use?
-
-Pytorch is our favorite, but it's up to you! For a Sobel filter that you can use to construct the training set, there are many options (including just doing the convolution in torch), but there's the `cv2.Sobel` filter pre-made. 
-
-## Where can I get a training dataset?
-
-This is up to you! There are lots of easy dataset libraries out there. Often these libraries allow you to write in transforms or other easy operators. You can always just download COCO or ImageNet. There's of course [img2dataset](https://github.com/rom1504/img2dataset)
-
-## Extra credit question
-
-Now generalize your algorithm so that it can learn any arbitrary image kernel-based filter. You could test this by randomizing the kernel. What are the limitations of this?
+## Directory structure
+```
+|- README.md
+|- learn_kernel.ipynb # Starting point. Contains the training code.
+|- utils.py # contains the utility function for visualizing, and creating data.
+|- model.py # contains the model definition.
+|- checkpoints/ # contains the checkpoints for the model.
+|- data/ # contains the data.
+|- .gitignore
+```
